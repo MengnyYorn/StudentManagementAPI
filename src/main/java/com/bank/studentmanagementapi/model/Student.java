@@ -1,6 +1,11 @@
 package com.bank.studentmanagementapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -11,11 +16,25 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please provide a valid email address")
     private String email;
+
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Phone number must be valid (8 to 15 digits)")
     private String phone;
+
+    @NotBlank(message = "Gender is required")
     private String gender;
+
+    @NotBlank(message = "Department is required")
     private String department;
+
+    @NotNull(message = "Enrollment date is required")
     private LocalDate enrollmentDate;
 
     public Student() {}

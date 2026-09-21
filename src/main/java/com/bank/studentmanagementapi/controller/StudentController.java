@@ -2,6 +2,7 @@ package com.bank.studentmanagementapi.controller;
 
 import com.bank.studentmanagementapi.model.Student;
 import com.bank.studentmanagementapi.service.StudentService;
+import jakarta.validation.Valid; // ត្រូវប្រាកដថាបាន import មួយនេះ
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    // Preferred: Constructor Injection (No @Autowired required in Spring 4.3+)
+    // Constructor Injection
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
@@ -32,13 +33,13 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
         Student savedStudent = studentService.createStudent(student);
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentDetails) {
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @Valid @RequestBody Student studentDetails) {
         Student updatedStudent = studentService.updateStudent(id, studentDetails);
         return ResponseEntity.ok(updatedStudent);
     }
